@@ -492,7 +492,7 @@ void GcodeSuite::G28() {
 
     #if HAS_Y_AXIS
       // Home Y (after X)
-      if (DISABLED(HOME_Y_BEFORE_X) && doY)
+      if (DISABLED(HOME_Y_BEFORE_X) && doY) {
         if(HOMING_FAILED_X !=homing_state) {
           homing_state = HOMING_Y;
         homeaxis(Y_AXIS);
@@ -502,6 +502,7 @@ void GcodeSuite::G28() {
         } else {
           return;
         }
+      }
     #endif
 
     #if BOTH(FOAMCUTTER_XYUV, HAS_J_AXIS)
