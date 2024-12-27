@@ -204,7 +204,7 @@ void AutoProbe::calculation() {
   }
 }
 
-bool AutoProbe::run_calibration_probe() 
+bool AutoProbe::run_calibration_probe() {
   xy_pos_t nozzle_position = {
     parser.linearval('X', current_position.x + probe.offset_xy.x),  // If no X use the probe's current X position
     parser.linearval('Y', current_position.y + probe.offset_xy.y)   // If no Y, ditto
