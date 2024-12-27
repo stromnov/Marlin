@@ -457,6 +457,8 @@ void tft_babystep_zoffset() {
   uint16_t back_color,up_color,down_color;
   static int16_t direction;
 
+  back_color = up_color = down_color = COLOR_BLACK;
+
   ui.defer_status_screen();
 
    if (got_click || ui.should_draw()) {
