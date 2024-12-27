@@ -43,7 +43,6 @@ void menu_language() {
 
   MENU_ITEM_F(function, FPSTR(GET_LANGUAGE_NAME(1)), []{ set_lcd_language(0); });
   MENU_ITEM_F(function, FPSTR(GET_LANGUAGE_NAME(2)), []{ set_lcd_language(1); });
-  
   #if NUM_LANGUAGES > 2
     MENU_ITEM_F(function, FPSTR(GET_LANGUAGE_NAME(3)), []{ set_lcd_language(2); });
     #if NUM_LANGUAGES > 3

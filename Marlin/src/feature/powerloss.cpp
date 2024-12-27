@@ -131,30 +131,24 @@ bool PrintJobRecovery::check() {
  * Delete the recovery file and clear the recovery data
  */
 void PrintJobRecovery::purge() {
-#if 0
-  init();
-  card.removeJobRecoveryFile();
-#endif
+  //init();
+  //card.removeJobRecoveryFile();
   if(info.valid_head != 0xFF || info.valid_foot != 0xFF) {
-	  if(persistentStore.FLASH_If_Erase(FLASH_OUTAGE_DATA_ADDR, FLASH_OUTAGE_DATA_ADDR+0x400) != FLASHIF_OK) 
-    {
-		
+    if(persistentStore.FLASH_If_Erase(FLASH_OUTAGE_DATA_ADDR, FLASH_OUTAGE_DATA_ADDR+0x400) != FLASHIF_OK) {
     }
-	}
-	memset(&info, 0, sizeof(info));	// init();
+  }
+  memset(&info, 0, sizeof(info));
 }
 
 /**
  * Load the recovery data, if it exists
  */
 void PrintJobRecovery::load() {
-#if 0
-  if (exists()) {
-    open(true);
-    (void)file.read(&info, sizeof(info));
-    close();
-  }
-#endif
+  //if (exists()) {
+  //  open(true);
+  //  (void)file.read(&info, sizeof(info));
+  //  close();
+  //}
   memcpy(&info,(uint8_t *)(FLASH_OUTAGE_DATA_ADDR),sizeof(info));
   debug(F("Load"));
 }
@@ -255,48 +249,44 @@ void PrintJobRecovery::save(const bool force/*=false*/, const float zraise/*=POW
     // Misc. Marlin flags
     info.flag.dryrun = !!(marlin_debug_flags & MARLIN_DEBUG_DRYRUN);
     info.flag.allow_cold_extrusion = TERN0(PREVENT_COLD_EXTRUSION, thermalManager.allow_cold_extrude);
-    
+
     info.feedrate_percentage = feedrate_percentage;
     write();
   }
 }
 
 #if PIN_EXISTS(POWER_LOSS)
+
   void PrintJobRecovery::outage() {
+
+    static uint8_t cnt = 0;
+    static uint32_t adc_raw_last = 0;
   
-	 static uint8_t cnt = 0;
-	 static uint32_t adc_raw_last = 0;
-  
-	 if(!enabled) {
-	   return ;
-	 }
-	 
-	 static uint32_t milli_last = 0;
-    if(millis() - milli_last > 500) {
-        milli_last = millis();
-        //SERIAL_ECHOLNPGM("power_monitor.getVoltsADC():",power_monitor.getVoltsADC());
+    if(!enabled) {
+      return ;
     }
 
-	   if(power_monitor.getVoltsADC() < 3000) {
+    static uint32_t milli_last = 0;
+    if(millis() - milli_last > 500) {
+      milli_last = millis();
+      //SERIAL_ECHOLNPGM("power_monitor.getVoltsADC():",power_monitor.getVoltsADC());
+    }
+
+    if(power_monitor.getVoltsADC() < 3000) {
+      if(cnt >= 2 ) {
+        _outage();   
+      }
+      if(power_monitor.getVoltsADC() < adc_raw_last) {
+        cnt++;
+      }
+    } else {
+      if(cnt != 0) {
+        cnt = 0;
+      }
+    }
   
-	   if(cnt >= 2 ) {
-		   _outage();
-		   
-	   }
-  
-	   if(power_monitor.getVoltsADC() < adc_raw_last) {
-		   cnt++;
-	   }
-  
-	 } else {
-  
-	   if(cnt != 0) {
-		   cnt = 0;
-	   }
-	 }
-  
-	 adc_raw_last = power_monitor.getVoltsADC();
-   }
+    adc_raw_last = power_monitor.getVoltsADC();
+  }
 
   #if ENABLED(BACKUP_POWER_SUPPLY)
 
@@ -357,7 +347,7 @@ void PrintJobRecovery::save(const bool force/*=false*/, const float zraise/*=POW
     // Save the current position, distance that Z was (or should be) raised,
     // and a flag whether the raise was already done here.
     if (IS_SD_PRINTING()) save(true, zraise, ENABLED(BACKUP_POWER_SUPPLY));
-    
+
     // Disable all heaters to reduce power loss
     thermalManager.disable_all_heaters();
 
@@ -384,22 +374,22 @@ void PrintJobRecovery::save(const bool force/*=false*/, const float zraise/*=POW
  * Save the recovery info the recovery file
  */
 void PrintJobRecovery::write() {
-#if 0
+
   debug(F("Write"));
 
-  open(false);
-  file.seekSet(0);
-  const int16_t ret = file.write(&info, sizeof(info));
-  if (ret == -1) DEBUG_ECHOLNPGM("Power-loss file write failed.");
-  if (!file.close()) DEBUG_ECHOLNPGM("Power-loss file close failed.");
- #endif
-   if(persistentStore.FLASH_If_Erase(FLASH_OUTAGE_DATA_ADDR,FLASH_OUTAGE_DATA_ADDR+0x400) != FLASHIF_OK)
-   {
-	 SERIAL_ECHOLNPGM("erase error");
-   }
-   uint32_t *p_buf = (uint32_t *)&info;
-   if(persistentStore.FLASH_If_Write(FLASH_OUTAGE_DATA_ADDR, p_buf, sizeof(info)) != FLASHIF_OK) {
-  	SERIAL_ECHOLNPGM("write error");
+  //open(false);
+  //file.seekSet(0);
+  //const int16_t ret = file.write(&info, sizeof(info));
+  //if (ret == -1) DEBUG_ECHOLNPGM("Power-loss file write failed.");
+  //if (!file.close()) DEBUG_ECHOLNPGM("Power-loss file close failed.");
+
+  if(persistentStore.FLASH_If_Erase(FLASH_OUTAGE_DATA_ADDR,FLASH_OUTAGE_DATA_ADDR+0x400) != FLASHIF_OK) {
+    SERIAL_ECHOLNPGM("erase error");
+  }
+  
+  uint32_t *p_buf = (uint32_t *)&info;
+  if(persistentStore.FLASH_If_Write(FLASH_OUTAGE_DATA_ADDR, p_buf, sizeof(info)) != FLASHIF_OK) {
+    SERIAL_ECHOLNPGM("write error");
   }
 }
 
@@ -454,8 +444,8 @@ void PrintJobRecovery::resume() {
   #endif
 
   // Interpret the saved Z according to flags
-  const float z_print = info.current_position.z; //raise 2mm when G28 During 
-        float z_raised = z_print + info.zraise;
+  const float z_print = info.current_position.z,
+              z_raised = z_print + info.zraise;
 
   //
   // Home the axes that can safely be homed, and
@@ -476,13 +466,14 @@ void PrintJobRecovery::resume() {
     gcode.process_subcommands_now(cmd);
 
   #elif DISABLED(BELTPRINTER)
-    
+
     #if ENABLED(POWER_LOSS_RECOVER_ZHOME) && defined(POWER_LOSS_ZHOME_POS)
       #define HOMING_Z_DOWN 1
     #endif
 
     float z_now = info.flag.raised ? z_raised : z_print;
     xyze_pos_t temp_current_position   = info.current_position;
+
     #if !HOMING_Z_DOWN
       // Set Z to the real position
       //sprintf_P(cmd, PSTR("G92.9Z%s"), dtostrf(z_now , 1, 3, str_1));
@@ -673,15 +664,15 @@ void PrintJobRecovery::resume() {
   // Continue to apply PLR when a file is resumed!
   enable(true);
 
-  //Resume the SD file from the last position
-  // char *fn = info.sd_filename;
+  // Resume the SD file from the last position
+  //char *fn = info.sd_filename;
   //sprintf_P(cmd, M23_STR, fn);
-  // gcode.process_subcommands_now(cmd);
- //gcode.process_subcommands_now(F("M117"));
- sprintf_P(cmd, PSTR("M24S%ldT%ld"), resume_sdpos, info.print_job_elapsed);
- gcode.process_subcommands_now(cmd);
- print_job_timer.powerloss_resume();
- 
+  //gcode.process_subcommands_now(cmd);
+  //gcode.process_subcommands_now(F("M117"));
+  sprintf_P(cmd, PSTR("M24S%ldT%ld"), resume_sdpos, info.print_job_elapsed);
+  gcode.process_subcommands_now(cmd);
+
+  print_job_timer.powerloss_resume(); 
   TERN_(DEBUG_POWER_LOSS_RECOVERY, marlin_debug_flags = old_flags);
 }
 

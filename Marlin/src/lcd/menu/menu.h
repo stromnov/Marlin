@@ -94,7 +94,7 @@ class MenuItem_back : public MenuItemBase {
     FORCE_INLINE static void action(FSTR_P const=nullptr) { 
       ui.back_callbackFunc();
       ui.go_back(); 
-      }
+    }
 };
 
 // CONFIRM_ITEM(LABEL,Y,N,FY,FN,...),
@@ -269,12 +269,13 @@ void _lcd_draw_homing();
 
 extern uint8_t screen_history_depth;
 inline void clear_menu_history() { screen_history_depth = 0; }
+
 void _menu_move_distance_e_maybe();
 
 typedef enum {
-	FILA_NO_ACT = 0x00,
-	FILA_IN 	= 0x01,
-	FILA_OUT	= 0x02,
+  FILA_NO_ACT = 0x00,
+  FILA_IN     = 0x01,
+  FILA_OUT    = 0x02,
 } _filament_cmd_t;
 
 extern bool filament_staring;

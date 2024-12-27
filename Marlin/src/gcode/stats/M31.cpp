@@ -28,6 +28,7 @@
 
 void printinf_finish();
 void menu_job_recovery();
+
 /**
  * M31: Get the time since the start of SD Print (or last M109)
  */
@@ -38,5 +39,4 @@ void GcodeSuite::M31() {
   //ui.set_status(buffer, ENABLED(DWIN_LCD_PROUI));
 
   SERIAL_ECHO_MSG("Print time: ", buffer);
-  
 }

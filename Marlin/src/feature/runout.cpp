@@ -145,8 +145,8 @@ void event_filament_runout(const uint8_t extruder) {
 //      queue.inject(F(FILAMENT_RUNOUT_SCRIPT));        
 //    #endif
     if (run_runout_script) {
-		//SERIAL_ECHOLNPGM("pause print");
-		ui.pause_print();
+      //SERIAL_ECHOLNPGM("pause print");
+      ui.pause_print();
   }
 }
 

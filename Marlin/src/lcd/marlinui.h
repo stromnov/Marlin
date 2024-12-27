@@ -57,12 +57,11 @@
 typedef bool (*statusResetFunc_t)();
 
 enum LCDLeveingState:uint8_t {
-	 LEVEING_NONE,
-	 LEVEING_HEATING,
-	 LEVEING_PROBE,
-   LEVEING_WIPE_NOZZLE,
-	 LEVEING_DONE
-
+  LEVEING_NONE,
+  LEVEING_HEATING,
+  LEVEING_PROBE,
+  LEVEING_WIPE_NOZZLE,
+  LEVEING_DONE
 };
 
 #if HAS_WIRED_LCD
@@ -207,6 +206,7 @@ public:
   MarlinUI() {
     TERN_(HAS_MARLINUI_MENU, currentScreen = status_screen);
   }
+
   static bool nozzle_heated_state,bed_heated_state;
   static bool nozzle_beform_bed;
   static bool preheat_state,have_heated_task;
@@ -228,7 +228,7 @@ public:
   static void real_duration(){ real_duration_state = true;}
   static bool get_real_duration(){return real_duration_state;}
   void reset_runout_state(){runout.filament_ran_out =false;}
-  
+
   #if HAS_DISPLAY || HAS_DWIN_E3V2
     static void init_lcd();
   #else
@@ -609,11 +609,11 @@ public:
     static bool selection;
     static void set_selection(const bool sel) { selection = sel; }
     static bool update_selection();
-	  static uint8_t multi_selection;
-	  static bool fresh_flag;
+    static uint8_t multi_selection;
+    static bool fresh_flag;
     static float zoffset;
 
-	static uint8_t update_multi_selection(uint8_t num);
+    static uint8_t update_multi_selection(uint8_t num);
     static float getzoffset(){ return probe.offset.z;}
     static void setzoffset(float value){ probe.offset.z = value;}
 
@@ -820,7 +820,9 @@ public:
   static uint16_t seclect;
   static bool start_print_status;
   static bool print_task_done;
+
 private:
+
   #if HAS_SCREEN_TIMEOUT
     static millis_t return_to_status_ms;
     static bool defer_return_to_status;

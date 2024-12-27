@@ -67,6 +67,7 @@ bool Stopwatch::start() {
   if (!isRunning()) {
     if (isPaused()) accumulator = duration();
     else reset();
+
     state = RUNNING;
     startTimestamp = millis();
     return true;
@@ -76,10 +77,9 @@ bool Stopwatch::start() {
 
 void Stopwatch::resume(const millis_t with_time) {
   debug(F("resume"));
-  
+
   reset();
   if ((accumulator = with_time)) state = RUNNING;
-
 }
 
 void Stopwatch::reset() {
@@ -92,9 +92,10 @@ void Stopwatch::reset() {
 }
 
 void Stopwatch::powerloss_resume(){
-	ui.real_duration();
-	startTimestamp = millis();
+  ui.real_duration();
+  startTimestamp = millis();
 }
+
 millis_t Stopwatch::duration() {
   return accumulator + MS_TO_SEC((isRunning()&& ui.get_real_duration() ? millis() : stopTimestamp) - startTimestamp);
 }

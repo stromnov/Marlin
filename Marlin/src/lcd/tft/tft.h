@@ -85,8 +85,8 @@ class TFT {
     static void add_rectangle(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint16_t color) { queue.add_rectangle(x, y, width, height, color); }
     static void draw_edit_screen_buttons();
 
-	  static void show_ancubic_log();
-	  static void color_change();
+    static void show_ancubic_log();
+    static void color_change();
 };
 
 extern TFT tft;

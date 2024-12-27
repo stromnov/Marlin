@@ -107,12 +107,14 @@ const uint16_t CN_num[99]={
 0x591A, 0x754C, 0x9762, 0x68C0, 0x6682, 0x505C, 0x5370, 0x6536, 0x964D, 0x6B62,
 0x9AD8, 0x50A8, 0x65E0, 0x4F4E, 0x8BED, 0x8A00, 0x6362, 0x4E0B, 0x6309
 };
+
 /* This function gets the character at the pstart position, interpreting UTF8 multibyte sequences
    and returns the pointer to the next character */
 const uint8_t* get_utf8_value_cb(const uint8_t *pstart, read_byte_cb_t cb_read_byte, lchar_t &pval) {
   uint32_t val = 0;
   const uint8_t *p = pstart;
   uint8_t i;
+
   #define NEXT_6_BITS() do{ val <<= 6; p++; valcur = cb_read_byte(p); val |= (valcur & 0x3F); }while(0)
 
   uint8_t valcur = cb_read_byte(p);
@@ -130,10 +132,8 @@ const uint8_t* get_utf8_value_cb(const uint8_t *pstart, read_byte_cb_t cb_read_b
       val = valcur & 0x0F;
       NEXT_6_BITS();
       NEXT_6_BITS();
-      for(i = 0;i<99;i++)
-      {
-        if(val==CN_num[i])
-        {
+      for(i = 0;i<99;i++) {
+        if(val==CN_num[i]) {
           val=0x9d+i;
           break;
         }

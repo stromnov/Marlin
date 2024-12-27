@@ -153,12 +153,12 @@ class TFilamentMonitor : public FilamentMonitorBase {
         #endif
 
         if (ran_out) {
-          if(!sensor.state_original){
-             filament_ran_out = true;
-             event_filament_runout(extruder);
-             planner.synchronize();
-          }
-          sensor.state_original = 0;
+         if(!sensor.state_original){
+          filament_ran_out = true;
+          event_filament_runout(extruder);
+          planner.synchronize();
+         }
+         sensor.state_original = 0;
         }
       }
     }
@@ -409,12 +409,12 @@ class FilamentSensorBase {
       }
 
       static void run() {
-        LOOP_L_N(i, NUM_RUNOUT_SENSORS) if (runout_count[i] >= 0)  runout_count[i]--;
+        LOOP_L_N(i, NUM_RUNOUT_SENSORS) if (runout_count[i] >= 0) runout_count[i]--;
       }
 
       static uint8_t has_run_out() {
         uint8_t runout_flags = 0;
-        LOOP_L_N(i, NUM_RUNOUT_SENSORS) if (runout_count[i] < 0) SBI(runout_flags, i);  
+        LOOP_L_N(i, NUM_RUNOUT_SENSORS) if (runout_count[i] < 0) SBI(runout_flags, i);
         return runout_flags;
       }
 

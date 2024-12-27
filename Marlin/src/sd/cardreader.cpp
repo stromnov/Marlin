@@ -485,7 +485,7 @@ void CardReader::manage_media() {
   uint8_t stat = uint8_t(IS_SD_INSERTED());
   if (stat == prev_stat) return;    // Already checked and still no change?
 
- SERIAL_ECHOLNPGM("stat:",stat);
+  SERIAL_ECHOLNPGM("stat:",stat);
   hal.watchdog_refresh();
   DEBUG_SECTION(cmm, "CardReader::manage_media()", true);
   DEBUG_ECHOLNPGM("Media present: ", prev_stat, " -> ", stat);
@@ -597,7 +597,6 @@ void CardReader::endFilePrintNow(TERN_(SD_RESORT, const bool re_sort/*=false*/))
 
 void CardReader::abortFilePrintNow(TERN_(SD_RESORT, const bool re_sort/*=false*/)) {
   flag.sdprinting = flag.sdprintdone = false;
-
   endFilePrintNow(TERN_(SD_RESORT, re_sort));
 }
 

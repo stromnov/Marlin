@@ -234,93 +234,79 @@ void _lcd_level_bed_continue();
 #endif
 
 void filament_change(){
+  START_MENU();
+  BACK_ITEM(MSG_BACK);
 
-	START_MENU();
-	BACK_ITEM(MSG_BACK);
-	
-	SUBMENU(MSG_FILAMENTUNLOAD,[]{ unloaOrloaddfilamentstate = true; filament_cmd = FILA_OUT; _menu_move_distance_e_maybe();});
-  	SUBMENU(MSG_FILAMENTLOAD, []{ unloaOrloaddfilamentstate = true; filament_cmd = FILA_IN; _menu_move_distance_e_maybe();});
-	
-	END_MENU();
+  SUBMENU(MSG_FILAMENTUNLOAD,[]{ unloaOrloaddfilamentstate = true; filament_cmd = FILA_OUT; _menu_move_distance_e_maybe();});
+  SUBMENU(MSG_FILAMENTLOAD, []{ unloaOrloaddfilamentstate = true; filament_cmd = FILA_IN; _menu_move_distance_e_maybe();});
 
+  END_MENU();
 }
 
-
 static bool is_calibration = false;
-void move_calibration()
-{
-
- if( !axis_is_trusted(X_AXIS) || !axis_is_trusted(Y_AXIS)){
-	  queue.inject_P(PSTR("G28\n M2000"));
-  }
-  else{
+void move_calibration() {
+  if( !axis_is_trusted(X_AXIS) || !axis_is_trusted(Y_AXIS)){
+    queue.inject_P(PSTR("G28\n M2000"));
+  } else {
     queue.inject_P(PSTR("M2000"));
   }
   calibration_state = true;
   LCD_MESSAGE(MSG_CALIBRATION_START);
 }
+
 void save_calibration(){
   queue.inject_P(PSTR("M2003 W"));
 }
 
 void menu_calibration(){
-
-
   START_MENU();
   BACK_ITEM(MSG_BACK);
   ACTION_ITEM(MSG_POSITION_CALIBRATION, move_calibration);
   ACTION_ITEM(MSG_BUTTON_SAVE, save_calibration);
-  
+
   SUBMENU_N(X_AXIS, MSG_MOVE_X_1MM,  []{ soft_endstop._enabled = false; ui.module_calibration_flag = true;  ui.manual_move.menu_scale = 1;    lcd_move_axis(X_AXIS); });
   SUBMENU_N(X_AXIS, MSG_MOVE_X_01MM, []{ soft_endstop._enabled = false; ui.module_calibration_flag = true;  ui.manual_move.menu_scale = 0.1; lcd_move_axis(X_AXIS); });
 
   SUBMENU_N(Y_AXIS, MSG_MOVE_Y_1MM,  []{ soft_endstop._enabled = false; ui.module_calibration_flag = true;  ui.manual_move.menu_scale = 1;    lcd_move_axis(Y_AXIS); });
   SUBMENU_N(Y_AXIS, MSG_MOVE_Y_01MM, []{ soft_endstop._enabled = false; ui.module_calibration_flag = true;  ui.manual_move.menu_scale = 0.1; lcd_move_axis(Y_AXIS); });
 
-	
   END_MENU();
 }
 
-
-
-void lcd_level_command()
-{
-	autoProbe.swtich_cool_fan = true;
-	ui.setzoffset(0);
-	gcode.process_subcommands_now(F("G28XY"));
-    ui.lcdLeveingstate = LEVEING_HEATING;
-    queue.inject_P(PSTR("G28\nG29"));
-	ui.clear_all = true;
-   	ui.goto_screen(lcd_level_top_windown);
-	ui.clear_all = false;
+void lcd_level_command() {
+  autoProbe.swtich_cool_fan = true;
+  ui.setzoffset(0);
+  gcode.process_subcommands_now(F("G28XY"));
+  ui.lcdLeveingstate = LEVEING_HEATING;
+  queue.inject_P(PSTR("G28\nG29"));
+  ui.clear_all = true;
+  ui.goto_screen(lcd_level_top_windown);
+  ui.clear_all = false;
 }
 
-
 void lcd_level_task(){
-	ui.defer_status_screen();
-	const bool ui_selection = ui.update_selection(), got_click = ui.use_click();
-	if (got_click || ui.should_draw()) {
-	  ui.last_confirm_windown_enabled = ui.confirm_windown_enabled;
-      ui.confirm_windown_enabled = true;
-	  MenuItem_confirm::draw_select_screen(
+  ui.defer_status_screen();
+  const bool ui_selection = ui.update_selection(), got_click = ui.use_click();
+  if (got_click || ui.should_draw()) {
+    ui.last_confirm_windown_enabled = ui.confirm_windown_enabled;
+    ui.confirm_windown_enabled = true;
+    MenuItem_confirm::draw_select_screen(
       GET_TEXT_F(MSG_BUTTON_STOP), GET_TEXT_F(MSG_BACK), 
       ui_selection,
       GET_TEXT_F(MSG_LEVEL_BED), (const char *)nullptr,nullptr
-      );
-	  if (got_click) {
-	  	 ui.confirm_windown_enabled = false;
-		selectFunc_t callFunc = !ui_selection ? lcd_level_command : nullptr;
-		if (callFunc) {
-			did_pause_print = 0; //
-			callFunc();
-		}
-		else
-		{
-			 ui.goto_previous_screen();
-			 ui.previous_callbackFunc();
-		}
-	  }
-	}	
+    );
+    if (got_click) {
+      ui.confirm_windown_enabled = false;
+      selectFunc_t callFunc = !ui_selection ? lcd_level_command : nullptr;
+      if (callFunc) {
+        did_pause_print = 0; //
+        callFunc();
+      } else {
+        ui.goto_previous_screen();
+        ui.previous_callbackFunc();
+      }
+    }
+  }
 }
 
 void menu_main() {
@@ -339,7 +325,7 @@ void menu_main() {
   //
   GCODES_ITEM(MSG_DISABLE_STEPPERS, F("M84"));
 
-	//
+  //
   // Move XYZ Axis
   //
   if (TERN1(DELTA, all_axes_homed())){

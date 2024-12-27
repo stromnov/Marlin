@@ -274,6 +274,7 @@ bool PersistentStore::read_data(int &pos, uint8_t *value, size_t size, uint16_t 
   } while (--size);
   return false;
 }
+
 uint32_t PersistentStore::FLASH_If_Erase(uint32_t addr_start, uint32_t addr_end) {
 
     uint32_t NbrOfPages = 0;

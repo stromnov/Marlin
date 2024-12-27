@@ -232,7 +232,6 @@ void MarlinUI::init_lcd() {
 }
 
 void MarlinUI::flexible_clear_lcd(uint16_t x,uint16_t y,uint16_t width,uint16_t height){
-
   tft.fill(x, y, width, height, COLOR_BACKGROUND);
   tft.queue.async();
 }
@@ -255,12 +254,11 @@ void MarlinUI::clear_lcd() {
 //  SERIAL_ECHOLNPGM("filament_cmd:",filament_cmd);
 
   if(is_clear_all){
-  	tft.fill(50, 0, TFT_WIDTH-50, TFT_HEIGHT, COLOR_BACKGROUND);
-  	cursor.set(50, 0);
-  }
-  else{
-    tft.fill(0, 0, TFT_WIDTH, TFT_HEIGHT, COLOR_BACKGROUND);
-    cursor.set(0, 0);
+    tft.fill(50, 0, TFT_WIDTH-50, TFT_HEIGHT, COLOR_BACKGROUND);
+    cursor.set(50, 0);
+  } else {
+  tft.fill(0, 0, TFT_WIDTH, TFT_HEIGHT, COLOR_BACKGROUND);
+  cursor.set(0, 0);
   }
 
 }

@@ -459,12 +459,11 @@ void Endstops::not_homing() {
   void Endstops::validate_homing_move() {
     if (trigger_state()) hit_on_purpose();
     else if(HOMING_X == homing_state) 
-		  kill(GET_TEXT_F(MSG_KILL_HOMING_FAILED),FPSTR("X"));
-	  else if(HOMING_Y == homing_state) 
-		  kill(GET_TEXT_F(MSG_KILL_HOMING_FAILED),FPSTR("Y"));
-	  else if(HOMING_Z == homing_state) 
-		  kill(GET_TEXT_F(MSG_KILL_HOMING_FAILED),FPSTR("Z"));
-	
+      kill(GET_TEXT_F(MSG_KILL_HOMING_FAILED),FPSTR("X"));
+    else if(HOMING_Y == homing_state) 
+      kill(GET_TEXT_F(MSG_KILL_HOMING_FAILED),FPSTR("Y"));
+    else if(HOMING_Z == homing_state) 
+      kill(GET_TEXT_F(MSG_KILL_HOMING_FAILED),FPSTR("Z"));
   }
 #endif
 
@@ -1238,10 +1237,10 @@ void Endstops::update() {
           if (z_probe_enabled) PROCESS_ENDSTOP(Z, MIN_PROBE);
         #endif
 
-		#if ENABLED(LEVEING_CALIBRATION_MODULE)
-			#if !HAS_CUSTOM_PROBE_PIN || Z_MAX_PIN != Z_MIN_PROBE_PIN  // No probe or probe is Z_MIN || Probe is not Z_MAX
-				if(autoProbe.enable_calibration_module) PROCESS_ENDSTOP(Z, MAX);
-		  #endif
+    #if ENABLED(LEVEING_CALIBRATION_MODULE)
+      #if !HAS_CUSTOM_PROBE_PIN || Z_MAX_PIN != Z_MIN_PROBE_PIN  // No probe or probe is Z_MIN || Probe is not Z_MAX
+        if(autoProbe.enable_calibration_module) PROCESS_ENDSTOP(Z, MAX);
+      #endif
     #endif
 
       }

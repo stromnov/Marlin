@@ -601,11 +601,10 @@ class Stepper {
     // Positions of stepper motors, in step units
     static xyze_long_t count_position;
 
-
-
   public:
-  	    // Current stepper motor directions (+1 or -1)
+    // Current stepper motor directions (+1 or -1)
     static xyze_int8_t count_direction;
+
     // Initialize stepper hardware
     static void init();
 

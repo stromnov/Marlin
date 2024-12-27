@@ -51,16 +51,17 @@ enum MarlinState : uint8_t {
   MF_PAUSED,
   MF_WAITING,
 };
- // Global State of homing
- enum HomingState : uint8_t {
-	NOT_HOMING			 = _BV(0),
-	HOMING_X			 = _BV(1),
-	HOMING_Y			 = _BV(2),
-	HOMING_Z			 = _BV(3),
-	HOMING_FAILED_X 	 = _BV(4),
-	HOMING_FAILED_Y 	 = _BV(5),
-	HOMING_FAILED_Z 	 = _BV(6),
-  };
+
+// Global State of homing
+enum HomingState : uint8_t {
+  NOT_HOMING      = _BV(0),
+  HOMING_X        = _BV(1),
+  HOMING_Y        = _BV(2),
+  HOMING_Z        = _BV(3),
+  HOMING_FAILED_X = _BV(4),
+  HOMING_FAILED_Y = _BV(5),
+  HOMING_FAILED_Z = _BV(6),
+ };
 
 extern MarlinState marlin_state;
 extern volatile HomingState homing_state;

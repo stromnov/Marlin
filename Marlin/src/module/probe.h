@@ -83,9 +83,8 @@ public:
   #endif
 
   #if HAS_BED_PROBE
-  
-  	static int8_t status;
 
+    static int8_t status;
     static xyz_pos_t offset;
 
     #if EITHER(PREHEAT_BEFORE_PROBING, PREHEAT_BEFORE_LEVELING)

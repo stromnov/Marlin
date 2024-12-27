@@ -66,64 +66,64 @@ void MarlinUI::tft_idle() {
 }
 
 #if ENABLED(SHOW_BOOTSCREEN)
+
   void TFT::color_change(){
-  	static millis_t change_ms = 0;
-	static bool next_color = 0;
+    static millis_t change_ms = 0;
+    static bool next_color = 0;
 
-	if(ELAPSED(millis(), change_ms)){
-		change_ms = millis() + 2000;
-		next_color = !next_color;
-		if(next_color)
-			io.WriteMultiple(0x1234,76800);
-		else
-			io.WriteMultiple(0x0000,76800);
-	}
-
-
+    if(ELAPSED(millis(), change_ms)){
+      change_ms = millis() + 2000;
+      next_color = !next_color;
+      if(next_color)
+        io.WriteMultiple(0x1234,76800);
+      else
+        io.WriteMultiple(0x0000,76800);
+    }
   }
-  void TFT::show_ancubic_log(){
 
+  void TFT::show_ancubic_log(){
     set_window(0,0,320,240);
-	io.DataTransferBegin();
+    io.DataTransferBegin();
+
     // write_multiple(0x1234,76800);
     // //tft.queue.sync();
     // while (1)
     // {
     //   /* code */
     // }
-    
-		uint8_t p;
-    uint8_t  R1,G1,V1; 
-		for(uint32_t i = 0;i<76800;i++)
-		{
-			p = _ac[i];
+
+    uint8_t p;
+    uint8_t  R1,G1,V1;
+    for(uint32_t i = 0;i<76800;i++) {
+      p = _ac[i];
       R1=GUI_COLOR_Colors4[p]>>16;
       G1=(GUI_COLOR_Colors4[p]>>8)&0xff;
       V1=(GUI_COLOR_Colors4[p])&0xFF;
-    
+
       R1=R1>>3;
       G1=G1>>2;
       V1=V1>>3;
-			io.WriteData((V1<<11)+ (G1<<5)+R1);
+      io.WriteData((V1<<11)+ (G1<<5)+R1);
       p++;
-		}
+    }
     //io.DataTransferEnd();
-	
   }
+
   void MarlinUI::color_change(){
     tft.color_change();
   }
+
   void MarlinUI::show_bootscreen() {
 
   SERIAL_ECHOLN("show_bootscreen");
- 
-	tft.show_ancubic_log();
-	hal.delay_ms(500);
-  	WRITE(TFT_BACKLIGHT_PIN, HIGH);
+
+  tft.show_ancubic_log();
+  hal.delay_ms(500);
+    WRITE(TFT_BACKLIGHT_PIN, HIGH);
 
   // tft.queue.reset();
+
   // tft.canvas(0, 0, TFT_WIDTH, TFT_HEIGHT);
-   
   // WRITE(TFT_BACKLIGHT_PIN, HIGH);
   //   #if ENABLED(BOOT_MARLIN_LOGO_SMALL)
   //     #define BOOT_LOGO_W  137   // MarlinLogo195x59x16
@@ -142,7 +142,6 @@ void MarlinUI::tft_idle() {
   //   #endif
 
   //   tft.queue.sync();
-
   }
 
   void MarlinUI::bootscreen_completion(const millis_t sofar) {
@@ -213,6 +212,7 @@ void draw_heater_status(uint16_t x, uint16_t y, const int8_t Heater,bool flag) {
   TERN_(TOUCH_SCREEN, if (targetTemperature >= 0) touch.add_control(HEATER, x, y, 64, 100, Heater));
   tft.canvas(x, y, 92, 67);
   tft.set_background(COLOR_BACKGROUND);
+
   if(flag) { tft.add_rectangle(0, 0, 92, 67, COLOR_AXIS_HOMED);}
   Color = currentTemperature < 0 ? COLOR_INACTIVE : COLOR_COLD;
 
@@ -222,8 +222,8 @@ void draw_heater_status(uint16_t x, uint16_t y, const int8_t Heater,bool flag) {
   #if HAS_HEATED_BED
     else if (Heater == H_BED) {
       if (currentTemperature >= 50) Color = COLOR_HEATED_BED;
-      //image = targetTemperature > 0 ? imgBedHeated : imgBed; 
-      image = imgBedHeated ; 
+      //image = targetTemperature > 0 ? imgBedHeated : imgBed;
+      image = imgBedHeated;
     }
   #endif
   #if HAS_TEMP_CHAMBER
@@ -243,7 +243,7 @@ void draw_heater_status(uint16_t x, uint16_t y, const int8_t Heater,bool flag) {
   tft.add_image(31, 1, image, COLOR_WHITE);
   char str_buf[16];
   sprintf(str_buf,"%u/%u",(uint16_t)currentTemperature, (uint16_t)targetTemperature);
-  
+
   tft_string.set(str_buf);
   tft_string.trim();
   tft.add_text(tft_string.center(92) ,42, COLOR_WHITE, tft_string);
@@ -290,23 +290,24 @@ void draw_speed_status(uint16_t x, uint16_t y, const bool blink) {
   MarlinImage image = imgIncrease;
   tft.canvas(x, y, 135, 100);
   tft.set_background(COLOR_BACKGROUND);
-  
+
   tft.add_image(0, 18, image, COLOR_COLD);
-  
+
   tft_string.set(i16tostr3rj(feedrate_percentage));
   tft_string.add('%');
   tft.add_text(64,40 , COLOR_COLD, tft_string);
 
 }
+
 void draw_zoffset_status(uint16_t x, uint16_t y, const bool blink) {
   MarlinImage image = imgDecrease;
   tft.canvas(x, y, 135, 100);
   tft.set_background(COLOR_BACKGROUND);
   tft.add_image(0, 18, image, COLOR_COLD);
-  
+
   char str_buf[10];
   sprintf(str_buf,"%.2f",1.2);
-  
+
   tft_string.set(str_buf);
   tft_string.trim();
   tft.add_text(64,40 , COLOR_COLD, tft_string);
@@ -314,7 +315,7 @@ void draw_zoffset_status(uint16_t x, uint16_t y, const bool blink) {
 
 void MarlinUI::previous_callbackFunc()
 {
-	  //Control
+    //Control
   tft.canvas(0, 120, 50 , 120);
 
   if(seclect == 1)
@@ -327,8 +328,7 @@ void MarlinUI::previous_callbackFunc()
     tft.set_background(COLOR_GREY);
     tft.add_image(11, 45, imgSettings, COLOR_WHITE);
   }
-  
-  
+
   //Homing
   tft.canvas(0, 0, 50 , 120);
   if(seclect != 1 )
@@ -342,7 +342,6 @@ void MarlinUI::previous_callbackFunc()
     tft.add_image(10, 46, imgHome, COLOR_WHITE);
   }
 }
-
 
 void MarlinUI::draw_status_screen() {
   const bool blink = get_blink();
@@ -360,8 +359,8 @@ void MarlinUI::draw_status_screen() {
     tft.set_background(COLOR_GREY);
     tft.add_image(11, 45, imgSettings, COLOR_WHITE);
   }
-  
-  
+
+
   //Homing
   tft.canvas(0, 0, 50 , 120);
   if(seclect != 1 )
@@ -376,7 +375,7 @@ void MarlinUI::draw_status_screen() {
   }
 
   if(ui.start_print_status){ //
-  
+
     char * const longest = card.longest_filename();
     char filenamebuffer[strlen(longest) + 2];
     filenamebuffer[0] = ' ';
@@ -387,7 +386,7 @@ void MarlinUI::draw_status_screen() {
     tft_string.set(filenamebuffer);
     tft_string.trim();
     tft.add_text(0, tft_string.vcenter(FONT_LINE_HEIGHT), COLOR_WHITE, tft_string);
-    
+
     // progress bar
     #define PRORESS_LENGTH  222
     const uint8_t progress = ui.get_progress_percent();
@@ -396,7 +395,7 @@ void MarlinUI::draw_status_screen() {
     tft.add_rectangle(0, 0, PRORESS_LENGTH, 6, COLOR_PROGRESS_FRAME);
     if (progress)
       tft.add_bar(1, 1, ((PRORESS_LENGTH-2) * progress) / 100, 4, COLOR_PROGRESS_BAR);
-	
+
 
     // print duration
     char buffer[14] ={0};
@@ -407,7 +406,7 @@ void MarlinUI::draw_status_screen() {
     else{
       sprintf_P(buffer, PSTR("%02hu'%02hu"), 0, 0);     // 12'34
     }
-	
+
     tft.canvas(74, 51, 53 , FONT_LINE_HEIGHT);
     tft.set_background(COLOR_BACKGROUND);
     tft_string.set(buffer);
@@ -421,14 +420,14 @@ void MarlinUI::draw_status_screen() {
   }
 
   if(wait_for_user){ //pause and not print
-	  tft.add_image(1, 1, imgStartPrint,COLOR_GREEN );
+    tft.add_image(1, 1, imgStartPrint,COLOR_GREEN );
   }
   else //staring
   {
-  	  tft.add_image(1, 1, imgPause, COLOR_YELLOW);
+      tft.add_image(1, 1, imgPause, COLOR_YELLOW);
   }
- 
-  
+
+
   //Stop Pring
   tft.canvas(216+40, 55, 34 , 34);
   tft.set_background(COLOR_BACKGROUND);
@@ -446,32 +445,32 @@ void MarlinUI::draw_status_screen() {
     if(seclect == 2)
     {
       tft.add_rectangle(0, 0, 90, 60, COLOR_AXIS_HOMED);
-	  tft.add_image(5, 5, imgHeatBackground, COLOR_GREY);
-	  tft.add_image(31, 13, imgSD, COLOR_WHITE);
+    tft.add_image(5, 5, imgHeatBackground, COLOR_GREY);
+    tft.add_image(31, 13, imgSD, COLOR_WHITE);
     }
-	else{
+  else{
      tft.add_image(5, 5, imgHeatBackground, COLOR_GREY);
      tft.add_image(31, 13, imgSD, COLOR_WHITE);
-	}
+  }
 
     //Preheat
     tft.canvas(205,12,90,60);
     tft.set_background(COLOR_BACKGROUND);
     if(seclect == 3)
     {
-      	tft.add_rectangle(0, 0, 90, 60, COLOR_AXIS_HOMED);
-	    tft.add_image(5, 5, imgHeatBackground, COLOR_GREY);
-	    tft.add_image(31,13, imgBed, COLOR_WHITE);
+        tft.add_rectangle(0, 0, 90, 60, COLOR_AXIS_HOMED);
+      tft.add_image(5, 5, imgHeatBackground, COLOR_GREY);
+      tft.add_image(31,13, imgBed, COLOR_WHITE);
     }
-	  else
-	  {
-		  tft.add_image(5, 5, imgHeatBackground, COLOR_GREY);
-		  tft.add_image(31,13, imgBed, COLOR_WHITE);
-	  }
-    
+    else
+    {
+      tft.add_image(5, 5, imgHeatBackground, COLOR_GREY);
+      tft.add_image(31,13, imgBed, COLOR_WHITE);
+    }
+
   }
- 
-  //heaters 
+
+  //heaters
   if(seclect == 4){
     draw_heater_status(74, 93, H_E0,true);
   }
@@ -494,11 +493,11 @@ void MarlinUI::draw_status_screen() {
     tft.add_rectangle(0, 0, 92, 67, COLOR_AXIS_HOMED);
   }
   tft.add_image(28, 7, imgFeedRate, COLOR_WHITE);
-  
+
   tft_string.set(i16tostr3rj(feedrate_percentage));
   tft_string.add('%');
   tft.add_text(22,43 , COLOR_WHITE, tft_string);
-  
+
   //z_offset
   //draw_zoffset_status(185,160,0);
   tft.canvas(204, 167, 92, 67);
@@ -508,10 +507,10 @@ void MarlinUI::draw_status_screen() {
     tft.add_rectangle(0, 0, 92, 67, COLOR_AXIS_HOMED);
   }
   tft.add_image(28, 7, imgLeveling, COLOR_WHITE);
-  
+
   char str_buf[10];
   sprintf(str_buf,"%.2f",1.2);
-  
+
   tft_string.set(ftostr42_52(ui.getzoffset()));
   tft_string.trim();
   tft.add_text(22 , 43, COLOR_WHITE, tft_string);
@@ -737,7 +736,7 @@ void MarlinUI::draw_status_screen() {
   //     #else
   //       256, 130
   //     #endif
-	//    , menu_main, imgSettings
+  //    , menu_main, imgSettings
   //   );
   //   #if ENABLED(SDSUPPORT)
   //     const bool cm = card.isMounted(), pa = printingIsActive();
@@ -821,14 +820,14 @@ void MenuItem_confirm::draw_select_screen(FSTR_P const yes, FSTR_P const no, con
   if(ui.confirm_windown_enabled != ui.last_confirm_windown_enabled){
       ui.flexible_clear_lcd(0,0,50,240);
   }
-    
+
   if (!string) line++;
 
   menu_line(line++);
   tft_string.set(pref);
   tft_string.trim();
   if(!suff)
-	tft_string.add('?');
+  tft_string.add('?');
   tft.add_text(tft_string.center(TFT_WIDTH-40), MENU_TEXT_Y_OFFSET, COLOR_MENU_TEXT, tft_string);
 
   if (string) {
@@ -845,17 +844,17 @@ void MenuItem_confirm::draw_select_screen(FSTR_P const yes, FSTR_P const no, con
     tft_string.trim();
     tft.add_text(tft_string.center(TFT_WIDTH-40), MENU_TEXT_Y_OFFSET, COLOR_MENU_TEXT, tft_string);
   }
- 
+
   #define TIP_BUTTON_WIDTH 110
   #define TIP_BUTTON_HIGHT 44
   #define BUTTON_Y_POSTION 136
   if(yesno){
         tft.canvas(33, BUTTON_Y_POSTION, TIP_BUTTON_WIDTH, TIP_BUTTON_HIGHT);
         tft.set_background(COLOR_BACKGROUND);
-  		  if(ui.currentScreen == tft_pause_print || ui.currentScreen == tft_stop_print || ui.currentScreen  == Reset_setting)
-			    tft.add_image(0, 0, imgCancel, COLOR_RED);
-		    else
-        	tft.add_image(0, 0, imgCancel, COLOR_BLUE);
+        if(ui.currentScreen == tft_pause_print || ui.currentScreen == tft_stop_print || ui.currentScreen  == Reset_setting)
+          tft.add_image(0, 0, imgCancel, COLOR_RED);
+        else
+          tft.add_image(0, 0, imgCancel, COLOR_BLUE);
 
         tft.canvas(176, BUTTON_Y_POSTION, TIP_BUTTON_WIDTH, TIP_BUTTON_HIGHT);
         tft.set_background(COLOR_BACKGROUND);
@@ -868,16 +867,16 @@ void MenuItem_confirm::draw_select_screen(FSTR_P const yes, FSTR_P const no, con
         tft.set_background(COLOR_BACKGROUND);
         tft.add_image(0, 0, imgCancel, COLOR_GREY);
 
-        
+
         tft.canvas(176, BUTTON_Y_POSTION, TIP_BUTTON_WIDTH, TIP_BUTTON_HIGHT);
         tft.set_background(COLOR_BACKGROUND);
-  		  if(ui.currentScreen == tft_pause_print || ui.currentScreen == tft_stop_print || ui.currentScreen  == Reset_setting)
-			    tft.add_image(0, 0, imgConfirm, COLOR_RED);
-		    else 
-        	tft.add_image(0, 0, imgConfirm, COLOR_BLUE);
+        if(ui.currentScreen == tft_pause_print || ui.currentScreen == tft_stop_print || ui.currentScreen  == Reset_setting)
+          tft.add_image(0, 0, imgConfirm, COLOR_RED);
+        else
+          tft.add_image(0, 0, imgConfirm, COLOR_BLUE);
 
   }
- 
+
 
   #if ENABLED(TOUCH_SCREEN)
     if (no)  add_control(TERN(TFT_COLOR_UI_PORTRAIT, 32, 48), TFT_HEIGHT - 64, CANCEL,  imgCancel,  true, yesno ? HALF(COLOR_CONTROL_CANCEL) : COLOR_CONTROL_CANCEL);

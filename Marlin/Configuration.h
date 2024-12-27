@@ -570,13 +570,13 @@
 #endif
 
 #if HAS_E_TEMP_SENSOR
-  #define TEMP_RESIDENCY_TIME         5  // (seconds) Time to wait for hotend to "settle" in M109
+  #define TEMP_RESIDENCY_TIME          5  // (seconds) Time to wait for hotend to "settle" in M109
   #define TEMP_WINDOW                  1  // (°C) Temperature proximity for the "temperature reached" timer
   #define TEMP_HYSTERESIS              3  // (°C) Temperature proximity considered "close enough" to the target
 #endif
 
 #if TEMP_SENSOR_BED
-  #define TEMP_BED_RESIDENCY_TIME     5  // (seconds) Time to wait for bed to "settle" in M190
+  #define TEMP_BED_RESIDENCY_TIME      5  // (seconds) Time to wait for bed to "settle" in M190
   #define TEMP_BED_WINDOW              1  // (°C) Temperature proximity for the "temperature reached" timer
   #define TEMP_BED_HYSTERESIS          3  // (°C) Temperature proximity considered "close enough" to the target
 #endif
@@ -669,7 +669,7 @@
   #else
     #define DEFAULT_Kp  14.42
     #define DEFAULT_Ki   0.88
-    #define DEFAULT_Kd 	59.12
+    #define DEFAULT_Kd  59.12
   #endif
 #endif
 
@@ -1156,8 +1156,8 @@
 #endif
 
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
-#define X_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
-#define Y_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
+#define X_MIN_ENDSTOP_INVERTING  true // Set to true to invert the logic of the endstop.
+#define Y_MIN_ENDSTOP_INVERTING  true // Set to true to invert the logic of the endstop.
 #define Z_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define I_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define J_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
@@ -1222,7 +1222,7 @@
  * Override with M92
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 455}
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 455 }
 
 /**
  * Default Max Feed Rate (linear=mm/s, rotational=°/s)
@@ -1616,7 +1616,7 @@
  */
 #define Z_CLEARANCE_DEPLOY_PROBE   10 // Z Clearance for Deploy/Stow
 #define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
-#define Z_CLEARANCE_MULTI_PROBE     10 // Z Clearance between multiple probes
+#define Z_CLEARANCE_MULTI_PROBE    10 // Z Clearance between multiple probes
 //#define Z_AFTER_PROBING           5 // Z position after probing is done
 
 #define Z_PROBE_LOW_POINT          -8 // Farthest distance below the trigger-point to go before stopping
@@ -2231,12 +2231,12 @@
  *   M501 - Read settings from EEPROM. (i.e., Throw away unsaved changes)
  *   M502 - Revert settings to "factory" defaults. (Follow with M500 to init the EEPROM.)
  */
-#define EEPROM_SETTINGS     // Persistent storage with M500 and M501
+#define EEPROM_SETTINGS       // Persistent storage with M500 and M501
 //#define DISABLE_M503        // Saves ~2700 bytes of flash. Disable for release!
 #define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
 #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
 #if ENABLED(EEPROM_SETTINGS)
-  #define EEPROM_AUTO_INIT  // Init EEPROM automatically on any errors.
+  #define EEPROM_AUTO_INIT    // Init EEPROM automatically on any errors.
   //#define EEPROM_INIT_NOW   // Init EEPROM on first boot after a new build.
 #endif
 

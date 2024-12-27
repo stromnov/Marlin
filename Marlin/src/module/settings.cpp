@@ -54,10 +54,7 @@
 #include "../libs/vector_3.h"   // for matrix_3x3
 #include "../gcode/gcode.h"
 #include "../MarlinCore.h"
-
-
 #include "../HAL/STM32/autoGetZoffset.h"
-
 
 #if EITHER(EEPROM_SETTINGS, SD_FIRMWARE_UPDATE)
   #include "../HAL/shared/eeprom_api.h"
@@ -604,14 +601,12 @@ typedef struct SettingsDataStruct {
   #endif
 
   #if ENABLED(LEVEING_CALIBRATION_MODULE)
-  	xyz_pos_t module_postion;
+    xyz_pos_t module_postion;
   #endif
 
-   #if ENABLED(LEVEING_CALIBRATION_MODULE)
-  	 bool sdcard_enabled;
-   #endif
-
-
+  #if ENABLED(LEVEING_CALIBRATION_MODULE)
+    bool sdcard_enabled;
+  #endif
 } SettingsData;
 
 //static_assert(sizeof(SettingsData) <= MARLIN_EEPROM_SIZE, "EEPROM too small to contain SettingsData!");
@@ -1662,14 +1657,15 @@ void MarlinSettings::postprocess() {
       #endif
     #endif
 
-	#if ENABLED(LEVEING_CALIBRATION_MODULE)
-		EEPROM_WRITE(autoProbe.calibration_positon);
-	#endif
+    #if ENABLED(LEVEING_CALIBRATION_MODULE)
+      EEPROM_WRITE(autoProbe.calibration_positon);
+    #endif
 
-	#if ENABLED(SD_CARD_LOG)
-		bool sdcard_enabled = autoProbe.sdcard_enabled;
-		EEPROM_WRITE(sdcard_enabled);
-	#endif
+    #if ENABLED(SD_CARD_LOG)
+      bool sdcard_enabled = autoProbe.sdcard_enabled;
+      EEPROM_WRITE(sdcard_enabled);
+    #endif
+
     //
     // Report final CRC and Data Size
     //
@@ -1707,7 +1703,7 @@ void MarlinSettings::postprocess() {
     }
 
     TERN_(EXTENSIBLE_UI, ExtUI::onSettingsStored(!eeprom_error));
-    
+
     autoProbe.write();
     return !eeprom_error;
   }
@@ -2672,14 +2668,15 @@ void MarlinSettings::postprocess() {
         stepper.set_shaping_damping_ratio(Y_AXIS, _data[1]);
       }
       #endif
-	  
-	 #if ENABLED(LEVEING_CALIBRATION_MODULE)
-	 	 EEPROM_READ(autoProbe.calibration_positon);
-	 #endif
 
-	 #if ENABLED(SD_CARD_LOG)
-	 	EEPROM_READ(autoProbe.sdcard_enabled);
-	 #endif
+      #if ENABLED(LEVEING_CALIBRATION_MODULE)
+        EEPROM_READ(autoProbe.calibration_positon);
+      #endif
+
+      #if ENABLED(SD_CARD_LOG)
+        EEPROM_READ(autoProbe.sdcard_enabled);
+      #endif
+
       //
       // Validate Final Size and CRC
       //
@@ -3470,14 +3467,15 @@ void MarlinSettings::reset() {
   #endif
 
   #if ENABLED(LEVEING_CALIBRATION_MODULE)
-  	autoProbe.calibration_positon.x = NOZZLE_X;
-  	autoProbe.calibration_positon.y = NOZZLE_Y;
-  	autoProbe.calibration_positon.z = WIPE;
+    autoProbe.calibration_positon.x = NOZZLE_X;
+    autoProbe.calibration_positon.y = NOZZLE_Y;
+    autoProbe.calibration_positon.z = WIPE;
   #endif
   
- #if ENABLED(SD_CARD_LOG)
-	autoProbe.sdcard_enabled = false;
- #endif
+  #if ENABLED(SD_CARD_LOG)
+    autoProbe.sdcard_enabled = false;
+  #endif
+
   postprocess();
 
   #if EITHER(EEPROM_CHITCHAT, DEBUG_LEVELING_FEATURE)

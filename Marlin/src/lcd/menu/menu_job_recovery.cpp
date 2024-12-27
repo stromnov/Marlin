@@ -46,18 +46,15 @@ void lcd_power_loss_recovery_cancel() {
   ui.return_to_status();
 }
 
-
 // TODO: Display long filename with Cancel/Resume buttons
 //       Requires supporting methods in PLR class.
 void menu_job_recovery() {
   ui.defer_status_screen();
- 	MenuItem_confirm::select_screen(
-		GET_TEXT_F(MSG_RESTORE_DEFAULTS), GET_TEXT_F(MSG_BACK),
-		lcd_power_loss_recovery_resume,lcd_power_loss_recovery_cancel,
-		  GET_TEXT_F(MSG_OUTAGE_RECOVERY), (const char *)nullptr, nullptr
-		);
-
-
+  MenuItem_confirm::select_screen(
+    GET_TEXT_F(MSG_RESTORE_DEFAULTS), GET_TEXT_F(MSG_BACK),
+    lcd_power_loss_recovery_resume,lcd_power_loss_recovery_cancel,
+    GET_TEXT_F(MSG_OUTAGE_RECOVERY), (const char *)nullptr, nullptr
+  );
   // START_MENU();
   // STATIC_ITEM(MSG_OUTAGE_RECOVERY);
   // ACTION_ITEM(MSG_RESUME_PRINT, lcd_power_loss_recovery_resume);

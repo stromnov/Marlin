@@ -30,7 +30,7 @@
  extern const uint8_t marlin_logo_228x255x4[];
  extern const uint16_t marlin_logo_195x59x16[];
  extern const uint16_t marlin_logo_320x240x16[];
-// extern const uint16_t marlin_logo_480x320x16[];
+//extern const uint16_t marlin_logo_480x320x16[];
  extern const uint16_t background_320x30x16[];
 
 extern const uint8_t hotend_64x64x4[];
@@ -72,6 +72,7 @@ extern const uint8_t right_round_36x36x4[];
 extern const uint8_t ok_24x24x4[];
 extern const uint8_t btn_rounded_160x44x4[];
 extern const uint8_t hotend_bg_80x50x4[];
+
 enum MarlinImage : uint8_t {
   imgBootScreen = 0x00,
   imgHotEnd,
@@ -152,7 +153,7 @@ extern const tImage NoLogo;
   // extern const tImage MarlinLogo228x255x2;
   // extern const tImage MarlinLogo228x255x4;
   // extern const tImage MarlinLogo195x59x16;
-   extern const tImage MarlinLogo320x240x16;
+  extern const tImage MarlinLogo320x240x16;
   //extern const tImage MarlinLogo480x320x16;
 #endif
 extern const tImage Background320x30x16;
@@ -180,6 +181,7 @@ extern const tImage Increase_64x64x4;
 extern const tImage Decrease_64x64x4;
 extern const tImage Pause_32x32x4;
 extern const tImage Starting_32x32x4;
+
 extern const tImage Feedrate_32x32x4;
 extern const tImage Flowrate_32x32x4;
 extern const tImage Directory_32x32x4;

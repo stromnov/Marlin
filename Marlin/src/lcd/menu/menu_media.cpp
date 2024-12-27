@@ -86,7 +86,7 @@ class MenuItem_sdfile : public MenuItem_sdbase {
         sd_items = screen_items;
       #endif
       #if ENABLED(SD_MENU_CONFIRM_START)
-          MenuItem_submenu::action(fstr, []{
+        MenuItem_submenu::action(fstr, []{
           char * const longest = card.longest_filename();
           char buffer[strlen(longest) + 2];
           buffer[0] = ' ';
@@ -123,7 +123,7 @@ void menu_media_filelist() {
   ui.encoder_direction_menus();
 
   const bool  card_detected = !card.isMounted();
- 
+
   #if HAS_MARLINUI_U8GLIB
     static uint16_t fileCnt;
     if (ui.first_page) fileCnt = card.get_num_Files();
@@ -134,19 +134,18 @@ void menu_media_filelist() {
  
  static int8_t temp_thisItemNr = 0;
   START_MENU();
-   if(card_detected) {
-      encoderLine = encoderTopLine = 0;
-      if(temp_thisItemNr) {
-        _menuLineNr = _thisItemNr = 0;
-        if(_thisItemNr == 0) {
-          temp_thisItemNr = 0;
-          ui.refresh();
-        }
+  if(card_detected) {
+    encoderLine = encoderTopLine = 0;
+    if(temp_thisItemNr) {
+      _menuLineNr = _thisItemNr = 0;
+      if(_thisItemNr == 0) {
+        temp_thisItemNr = 0;
+        ui.refresh();
       }
     }
-    else{
-      temp_thisItemNr = encoderLine;    
-    }
+  } else {
+    temp_thisItemNr = encoderLine;    
+  }
 
   #if ENABLED(MULTI_VOLUME)
     ACTION_ITEM(MSG_BACK, []{ ui.goto_screen(menu_media); });
@@ -164,7 +163,8 @@ void menu_media_filelist() {
   if (ui.should_draw()) for (uint16_t i = 0; i < fileCnt; i++) {
     if (_menuLineNr == _thisItemNr) {
       card.getfilename_sorted(SD_ORDER(i, fileCnt));
-      if (card.flag.filenameIsDir){
+      if (card.flag.filenameIsDir)
+      {
         //MENU_ITEM(sdfolder, MSG_MEDIA_MENU, card);
       }
       else

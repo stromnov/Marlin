@@ -103,7 +103,8 @@ class Stopwatch {
      * @return the delta since starting the stopwatch
      */
     static millis_t duration();
-	static void powerloss_resume();
+    static void powerloss_resume();
+
     #ifdef DEBUG_STOPWATCH
 
       /**

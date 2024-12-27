@@ -21,10 +21,12 @@
  *
  */
 #pragma once
+
 /**
  * Fast I/O interfaces for STM32
  * These use GPIO register access for fast port manipulation.
  */
+
 // ------------------------
 // Public Variables
 // ------------------------
@@ -41,14 +43,17 @@ void FastIO_init(); // Must be called before using fast io macros
 // ------------------------
 // Defines
 // ------------------------
+
 extern bool set_dir_state;
 extern uint32_t internal_call;
 extern uint32_t external_call;
+
 #define _BV32(b) (1UL << (b))
 
 #ifndef PWM
   #define PWM OUTPUT
 #endif
+
 #if defined(STM32F0xx) || defined(STM32F1xx) || defined(STM32F3xx) || defined(STM32L0xx) || defined(STM32L4xx)
   #define _WRITE(IO, V) do { \
     if(IO==-1){\

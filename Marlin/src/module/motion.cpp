@@ -1188,8 +1188,8 @@ FORCE_INLINE void segment_idle(millis_t &next_idle_ms) {
       // If the move is only in Z/E don't split up the move
       if (!diff.x && !diff.y) {
         planner.buffer_line(destination, fr_mm_s);
-//		    if(diff.z)
-//        	SERIAL_ECHOLNPGM("====z",destination.z,"====");
+        //if(diff.z)
+        //  SERIAL_ECHOLNPGM("====z",destination.z,"====");
         return;
       }
 
@@ -2372,6 +2372,7 @@ void set_axis_is_at_home(const AxisEnum axis) {
 
         if (DEBUGGING(LEVELING)) DEBUG_ECHOLNPGM("*** Z HOMED WITH PROBE (Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN) ***\n> probe.offset.z = ", probe.offset.z);
         //if (1) DEBUG_ECHOLNPGM("*** Z HOMED WITH PROBE (Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN) ***\n> probe.offset.z = ", probe.offset.z);
+
       #else
 
         if (DEBUGGING(LEVELING)) DEBUG_ECHOLNPGM("*** Z HOMED TO ENDSTOP ***");

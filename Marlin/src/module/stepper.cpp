@@ -82,6 +82,7 @@
 Stepper stepper; // Singleton
 bool z_dir_up_error_state = false;
 bool z_dir_down_error_state = false;
+
 #define BABYSTEPPING_EXTRA_DIR_WAIT
 
 #ifdef __AVR__
@@ -579,6 +580,7 @@ void Stepper::disable_all_steppers() {
 
   TERN_(EXTENSIBLE_UI, ExtUI::onSteppersDisabled());
 }
+
 #define SET_STEP_DIR(A)                       \
   if (motor_direction(_AXIS(A))) {            \
     if(_AXIS(A) == -1){\
@@ -586,8 +588,8 @@ void Stepper::disable_all_steppers() {
     }\
     else{\
         A##_APPLY_DIR(INVERT_##A##_DIR, false); \
-    } \ 
-    count_direction[_AXIS(A)] = -1;           \                                  
+    } \
+    count_direction[_AXIS(A)] = -1;           \
   }                                           \
   else {                                      \
    if(_AXIS(A) == -1){\
@@ -595,7 +597,7 @@ void Stepper::disable_all_steppers() {
     }\
     else{\
         A##_APPLY_DIR(!INVERT_##A##_DIR, false); \
-    }  \ 
+    }  \
     count_direction[_AXIS(A)] = 1;            \
   }
 
@@ -612,6 +614,7 @@ uint32_t external_call = 0;
 void Stepper::set_directions() {
 
   DIR_WAIT_BEFORE();
+
   //delay(1);
   set_dir_state = true;
   TERN_(HAS_X_DIR, SET_STEP_DIR(X)); // A
@@ -645,6 +648,7 @@ void Stepper::set_directions() {
       count_direction.e = 1;
     }
   #endif
+
   //delay(1);
   set_dir_state = false;
   DIR_WAIT_AFTER();
@@ -2712,7 +2716,7 @@ bool Stepper::is_block_busy(const block_t * const block) {
 }
 
 void Stepper::init() {
-  
+
   #if MB(ALLIGATOR)
     const float motor_current[] = MOTOR_CURRENT;
     unsigned int digipot_motor = 0;

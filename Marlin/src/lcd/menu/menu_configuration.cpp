@@ -472,16 +472,15 @@ void menu_advanced_settings();
   }
 
 #endif // CUSTOM_MENU_CONFIG
-void Reset_setting()
-{
-	MenuItem_confirm::select_screen(
-		  GET_TEXT_F(MSG_RESTORE_DEFAULTS), GET_TEXT_F(MSG_BACK),
-		  ui.reset_settings,nullptr,
-		  GET_TEXT_F(MSG_RESTORE_DEFAULTS), (const char *)nullptr, nullptr
-		  );
-	  
 
+void Reset_setting() {
+  MenuItem_confirm::select_screen(
+    GET_TEXT_F(MSG_RESTORE_DEFAULTS), GET_TEXT_F(MSG_BACK),
+    ui.reset_settings,nullptr,
+    GET_TEXT_F(MSG_RESTORE_DEFAULTS), (const char *)nullptr, nullptr
+  );
 }
+
 void menu_configuration() {
   const bool busy = printer_busy();
 
@@ -505,6 +504,7 @@ void menu_configuration() {
     }
   #endif
 
+//  SUBMENU(MSG_ADVANCED_SETTINGS, menu_advanced_settings);
 
 //  #if ENABLED(BABYSTEP_ZPROBE_OFFSET)
 //    SUBMENU(MSG_ZPROBE_ZOFFSET, lcd_babystep_zoffset);
@@ -580,14 +580,14 @@ void menu_configuration() {
   #endif
 
   #if HAS_FAN
-	EDIT_ITEM(bool, MSG_FAN_SPEED,&ui.model_fan_enabled, ui.fan_callbackFunc);
+    EDIT_ITEM(bool, MSG_FAN_SPEED,&ui.model_fan_enabled, ui.fan_callbackFunc);
   #endif
 
-   #if HAS_MULTI_LANGUAGE
-  	SUBMENU(LANGUAGE_CHOOSE, menu_language);
-   #endif
+  #if HAS_MULTI_LANGUAGE
+    SUBMENU(LANGUAGE_CHOOSE, menu_language);
+  #endif
 
-   SUBMENU(MSG_ABOUT, menu_about);
+  SUBMENU(MSG_ABOUT, menu_about);
 
 //  #if ENABLED(POWER_LOSS_RECOVERY)
 //    EDIT_ITEM(bool, MSG_OUTAGE_RECOVERY, &recovery.enabled, recovery.changed);
@@ -612,12 +612,12 @@ void menu_configuration() {
 
    SUBMENU(MSG_RESTORE_DEFAULTS, Reset_setting);
 //  if (!busy) SUBMENU(MSG_RESTORE_DEFAULTS, []{
-//		MenuItem_confirm::select_screen(
-//		GET_TEXT_F(MSG_RESTORE_DEFAULTS), GET_TEXT_F(MSG_BACK),
-//		ui.reset_settings,nullptr,
-//		  GET_TEXT_F(MSG_RESTORE_DEFAULTS), (const char *)nullptr, nullptr
-//		);
-//	});
+//    MenuItem_confirm::select_screen(
+//    GET_TEXT_F(MSG_RESTORE_DEFAULTS), GET_TEXT_F(MSG_BACK),
+//    ui.reset_settings,nullptr,
+//      GET_TEXT_F(MSG_RESTORE_DEFAULTS), (const char *)nullptr, nullptr
+//    );
+//  });
 
   END_MENU();
 }

@@ -25,7 +25,6 @@
 
 #include "../fontutils.h"
 
-
 #define NO_GLYPH  0xFF
 
 /*

@@ -40,7 +40,6 @@ void GcodeSuite::M117() {
   ui.real_duration();
   print_job_timer.reset();
   print_job_timer.start();
-	
 }
 
 #endif // HAS_STATUS_MESSAGE

@@ -345,18 +345,15 @@ void MarlinUI::pause_show_message(
 //  }
 //  else
 //    ui.return_to_status();
-//	ui.return_to_status();
-
+//  ui.return_to_status();
 }
 
 void MarlinUI::pausu_befor_event(){
-	if(runout.filament_ran_out){
-      ui.goto_screen(runout_sensor);
-	}
-  else
-  {
-
+  if(runout.filament_ran_out){
+    ui.goto_screen(runout_sensor);
+  } else {
     ui.return_to_status();
   }
 }
+
 #endif // HAS_MARLINUI_MENU && ADVANCED_PAUSE_FEATURE

@@ -111,11 +111,11 @@ void GcodeSuite::M1001() {
   #endif
 
   TERN_(EXTENSIBLE_UI, ExtUI::onPrintDone());
-  
-#if HAS_MARLINUI_MENU
-  ui.print_task_done = true;
-  ui.goto_screen(printinf_finish);
-#endif  
+
+  #if HAS_MARLINUI_MENU
+    ui.print_task_done = true;
+    ui.goto_screen(printinf_finish);
+  #endif
 
   // Re-select the last printed file in the UI
   TERN_(SD_REPRINT_LAST_SELECTED_FILE, ui.reselect_last_file());

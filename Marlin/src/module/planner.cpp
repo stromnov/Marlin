@@ -1896,7 +1896,6 @@ bool Planner::_populate_block(
   //   " C:", target.c, " (", dc, " steps)"
   // );
 
-
   /* <-- add a slash to enable
     SERIAL_ECHOLNPGM(
       "  _populate_block FR:", fr_mm_s,
@@ -3143,6 +3142,7 @@ bool Planner::buffer_line(const xyze_pos_t &cart, const_feedRate_t fr_mm_s
 ) {
   xyze_pos_t machine = cart;
   TERN_(HAS_POSITION_MODIFIERS, apply_modifiers(machine));
+
   #if IS_KINEMATIC
 
     #if HAS_JUNCTION_DEVIATION

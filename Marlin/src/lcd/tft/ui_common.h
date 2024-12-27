@@ -45,7 +45,7 @@
   #error "Unsupported display resolution!"
 #endif
 
-void draw_heater_status(uint16_t x, uint16_t y, const int8_t Heater,bool flag);
+void draw_heater_status(uint16_t x, uint16_t y, const int8_t Heater, bool flag);
 void draw_fan_status(uint16_t x, uint16_t y, const bool blink);
 void draw_speed_status(uint16_t x, uint16_t y, const bool blink);
 void draw_zoffset_status(uint16_t x, uint16_t y, const bool blink);
