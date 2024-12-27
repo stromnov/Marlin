@@ -243,7 +243,7 @@ void filament_change(){
   END_MENU();
 }
 
-static bool is_calibration = false;
+// static bool is_calibration = false;
 void move_calibration() {
   if( !axis_is_trusted(X_AXIS) || !axis_is_trusted(Y_AXIS)){
     queue.inject_P(PSTR("G28\n M2000"));

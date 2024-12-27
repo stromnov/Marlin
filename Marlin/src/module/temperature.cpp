@@ -1420,7 +1420,7 @@ void Temperature::mintemp_error(const heater_id_t heater_id) {
   float Temperature::get_pid_output_hotend(const uint8_t E_NAME) {
     const uint8_t ee = HOTEND_INDEX;
 
-    const bool is_idling = TERN0(HEATER_IDLE_HANDLER, heater_idle[ee].timed_out);
+    // const bool is_idling = TERN0(HEATER_IDLE_HANDLER, heater_idle[ee].timed_out);
 
     #if ENABLED(PIDTEMP)
 

@@ -1067,7 +1067,7 @@ void unload_load_filament(){
 
  void preheat_to_move_E()
  {
-   static uint32_t refresh_ms;
+  //static uint32_t refresh_ms;
   int16_t currentTemperature =  thermalManager.temp_hotend[0].celsius;
   int16_t targetTemperature =   thermalManager.temp_hotend[0].target;
  //   START_SCREEN();
