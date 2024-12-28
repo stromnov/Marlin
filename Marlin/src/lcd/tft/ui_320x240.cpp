@@ -178,7 +178,7 @@ void MarlinUI::draw_kill_screen() {
 
 void draw_heater_status(uint16_t x, uint16_t y, const int8_t Heater,bool flag) {
   MarlinImage image = imgHotEnd;
-  uint16_t Color;
+  // uint16_t Color;
   celsius_t currentTemperature, targetTemperature;
 
   if (Heater >= 0) { // HotEnd
@@ -214,14 +214,14 @@ void draw_heater_status(uint16_t x, uint16_t y, const int8_t Heater,bool flag) {
   tft.set_background(COLOR_BACKGROUND);
 
   if(flag) { tft.add_rectangle(0, 0, 92, 67, COLOR_AXIS_HOMED);}
-  Color = currentTemperature < 0 ? COLOR_INACTIVE : COLOR_COLD;
+  // Color = currentTemperature < 0 ? COLOR_INACTIVE : COLOR_COLD;
 
   if (Heater >= 0) { // HotEnd
-    if (currentTemperature >= 50) Color = COLOR_HOTEND;
+    // if (currentTemperature >= 50) Color = COLOR_HOTEND;
   }
   #if HAS_HEATED_BED
     else if (Heater == H_BED) {
-      if (currentTemperature >= 50) Color = COLOR_HEATED_BED;
+      // if (currentTemperature >= 50) Color = COLOR_HEATED_BED;
       //image = targetTemperature > 0 ? imgBedHeated : imgBed;
       image = imgBedHeated;
     }
@@ -344,7 +344,7 @@ void MarlinUI::previous_callbackFunc()
 }
 
 void MarlinUI::draw_status_screen() {
-  const bool blink = get_blink();
+  // const bool blink = get_blink();
   TERN_(TOUCH_SCREEN, touch.clear());
   //Control
   tft.canvas(0, 120, 50 , 120);

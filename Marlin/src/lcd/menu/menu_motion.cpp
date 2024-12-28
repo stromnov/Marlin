@@ -114,28 +114,28 @@ void lcd_move_axis(const AxisEnum axis) {
 
 #if E_MANUAL
 
-  static void lcd_move_e(TERN_(MULTI_E_MANUAL, const int8_t eindex=active_extruder)) {
-    if (ui.use_click()) return ui.goto_previous_screen_no_defer();
-    if (ui.encoderPosition) {
-      if (!ui.manual_move.processing) {
-        const float diff = float(int32_t(ui.encoderPosition)) * ui.manual_move.menu_scale;
-        TERN(IS_KINEMATIC, ui.manual_move.offset, current_position.e) += diff;
-        ui.manual_move.soon(E_AXIS OPTARG(MULTI_E_MANUAL, eindex));
-        ui.refresh(LCDVIEW_REDRAW_NOW);
-      }
-      ui.encoderPosition = 0;
-    }
-    if (ui.should_draw()) {
-      TERN_(MULTI_E_MANUAL, MenuItemBase::init(eindex));
-      MenuEditItemBase::draw_edit_screen(
-        GET_TEXT_F(TERN(MULTI_E_MANUAL, MSG_MOVE_EN, MSG_MOVE_E)),
-        ftostr41sign(current_position.e
-          PLUS_TERN0(IS_KINEMATIC, ui.manual_move.offset)
-          MINUS_TERN0(MANUAL_E_MOVES_RELATIVE, ui.manual_move.e_origin)
-        )
-      );
-    } // should_draw
-  }
+  // static void lcd_move_e(TERN_(MULTI_E_MANUAL, const int8_t eindex=active_extruder)) {
+  //   if (ui.use_click()) return ui.goto_previous_screen_no_defer();
+  //   if (ui.encoderPosition) {
+  //     if (!ui.manual_move.processing) {
+  //       const float diff = float(int32_t(ui.encoderPosition)) * ui.manual_move.menu_scale;
+  //       TERN(IS_KINEMATIC, ui.manual_move.offset, current_position.e) += diff;
+  //       ui.manual_move.soon(E_AXIS OPTARG(MULTI_E_MANUAL, eindex));
+  //       ui.refresh(LCDVIEW_REDRAW_NOW);
+  //     }
+  //     ui.encoderPosition = 0;
+  //   }
+  //   if (ui.should_draw()) {
+  //     TERN_(MULTI_E_MANUAL, MenuItemBase::init(eindex));
+  //     MenuEditItemBase::draw_edit_screen(
+  //       GET_TEXT_F(TERN(MULTI_E_MANUAL, MSG_MOVE_EN, MSG_MOVE_E)),
+  //       ftostr41sign(current_position.e
+  //         PLUS_TERN0(IS_KINEMATIC, ui.manual_move.offset)
+  //         MINUS_TERN0(MANUAL_E_MOVES_RELATIVE, ui.manual_move.e_origin)
+  //       )
+  //     );
+  //   } // should_draw
+  // }
 
 #endif // E_MANUAL
 
