@@ -243,9 +243,11 @@ void MarlinUI::clear_lcd() {
   #endif
 
   tft.queue.reset();
+/*
 //  bool is_clear_all = (!clear_all && confirm_windown_enabled == false) \
 //    && (seclect == 1 || seclect == 2 || seclect == 3 )  && ui.lcdLeveingstate == LEVEING_NONE\
 //    && filament_cmd == FILA_NO_ACT;
+*/
   bool is_clear_all = !clear_all && (confirm_windown_enabled == false);
 
 //  SERIAL_ECHOLNPGM("is_clear_all:",is_clear_all);
